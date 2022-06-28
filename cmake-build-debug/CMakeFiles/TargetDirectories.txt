@@ -1,0 +1,3 @@
+C:/Users/usuario/CLionProjects/S3-Lista5/cmake-build-debug/CMakeFiles/S3_Lista5.dir
+C:/Users/usuario/CLionProjects/S3-Lista5/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/usuario/CLionProjects/S3-Lista5/cmake-build-debug/CMakeFiles/rebuild_cache.dir
