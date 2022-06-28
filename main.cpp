@@ -1,21 +1,22 @@
 #include <stdio.h>
+#include <cstdlib>
 
 struct No{
     int dado;
     struct No *prox;
 } *inicio = NULL;
-
+typedef struct No No;
 
 char menu(){
     char op;
-    printf("\nEscolha:\n0- FIM\n1- Inserir no inicio da lista:\n2- Inserir no fim da lista:\n3- Buscar na lista:\n4- Trocar numero:\n5- Imprimir:\nOpcao:");
+    printf("\nEscolha:\n0- FIM\n1- Inserir no inicio da lista:\n2- Inserir no fim da lista:\n3- Buscar na lista:\n4- Trocar numero:\n5- Ecluir elemento:\n6- Excluir Lista:\n7- Imprimir:\nOpcao:");
     scanf("%c%*C", &op);
     return op;
 }
 
 
 void insereFim(int x){
-    struct No *novo;
+    No *novo;
     novo = new struct No();
     novo->dado = x;
 
@@ -24,7 +25,7 @@ void insereFim(int x){
         inicio = novo;
     }
     else{
-        struct No *aux;
+        No *aux;
         for (aux = inicio; aux->prox != NULL; aux = aux->prox) {}
         novo->prox = aux->prox;
         aux->prox = novo;
@@ -33,7 +34,7 @@ void insereFim(int x){
 
 
 void insereInicio(int x){
-    struct No *novo;
+    No *novo;
     novo = new struct No();
     novo->dado = x;
     novo->prox = inicio;
@@ -42,19 +43,21 @@ void insereInicio(int x){
 
 
 void imprime(){
-    struct No *aux;
-    for(aux = inicio; aux != NULL; aux = aux->prox){
-        printf("| %d ", aux->dado);
-    }
-    printf("|");
+    if(inicio != NULL){
+        struct No *aux;
+        for(aux = inicio; aux != NULL; aux = aux->prox){
+            printf("| %d ", aux->dado);
+        }
+        printf("|");
+    } else
+        printf("Lista vazia!!");
 }
 
 
 struct No *busca(int x, int status){
 
-    struct No *aux;
+    No *aux;
     for (aux = inicio; aux != NULL; aux = aux->prox) {
-        char op;
         if(x == aux->dado){
             if (status == 1){
                 printf("O numero %d esta no endereco %p.", x, aux);
@@ -79,6 +82,36 @@ void alterar(){
     printf("Feito!!");
 
 }
+
+
+int excluirElemento() {
+    imprime();
+    if (inicio == NULL)return 1;
+
+    int x;
+    printf("\nDigite o elemento que deseja excluir:");
+    scanf("%d%*C", &x);
+
+    if(inicio->dado == x){
+        No *aux = inicio;
+        inicio = inicio->prox;
+        free(aux);
+    }
+    else{
+        No *aux1; // anterior ao excluido
+        No *aux2 = busca(x, 0); // a ser excluido
+        if(aux2 == nullptr)
+            return 1;
+        No *aux3; // posterior ao excluido
+        aux3 = aux2->prox;
+        for (aux1 = inicio; aux1->prox != aux2; aux1 = aux1->prox) {}
+        aux1->prox = aux3;
+        free(aux2);
+    }
+    return 0;
+}
+
+void excluirLista();
 
 
 int main(){
@@ -107,7 +140,9 @@ int main(){
                     break;
                 }
             case '4': alterar();break;
-            case '5': imprime(); break;
+            case '5': excluirElemento();break;
+            case '6': excluirLista();break;
+            case '7': imprime(); break;
             default :
                 if (op != '0')
                     printf ("\nEscolha errada!!!!");
