@@ -72,21 +72,24 @@ struct No *busca(int x, int status){
 }
 
 
-void alterar(){
-    int num;
-    printf("Qual numero da lista deseja substituir?\n");
-    scanf ("%d%*C", &num);
-    struct No *aux = busca(num, 0);
-    printf("Digite o numero desejado para inserir na lista:");
-    scanf ("%d%*C", &aux->dado);
-    printf("Feito!!");
-
+int alterar(){
+    if(inicio != NULL){
+        int num;
+        printf("Qual numero da lista deseja substituir?\n");
+        scanf ("%d%*C", &num);
+        struct No *aux = busca(num, 0);
+        printf("Digite o numero desejado para inserir na lista:");
+        scanf ("%d%*C", &aux->dado);
+        printf("Feito!!");
+        return 0;
+    }
+    printf("Lista vazia!!");return 0;
 }
 
 
 int excluirElemento() {
     imprime();
-    if (inicio == NULL)return 1;
+    if (inicio == NULL)return 0;
 
     int x;
     printf("\nDigite o elemento que deseja excluir:");
@@ -111,7 +114,32 @@ int excluirElemento() {
     return 0;
 }
 
-void excluirLista();
+int excluirLista() {
+    if(inicio != NULL){
+        while(true){
+            int x;
+            printf("Deseja realmente excluir a lista?\n0- Nao\n1- Sim\n");
+            scanf("%d%*C", &x);
+            if (x == 0)return 0;
+
+            No *aux;
+            No *apagar = inicio;
+            for(aux = inicio; aux != NULL; aux = aux->prox){
+                if(apagar!=aux){
+                    free(apagar);
+                    apagar = aux;
+                    if(apagar->prox == NULL) {
+                        inicio = NULL;
+                        free(apagar);
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
+    printf("Lista vazia!!");
+    return 0;
+}
 
 
 int main(){
